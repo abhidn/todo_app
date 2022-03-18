@@ -1,23 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import react, { useEffect, useState } from "react";
+import Todo from './Todo';
+import { Button, FormControl, Input, InputLabel } from '@mui/material';
+import "./App.css";
+import db from "./firebae";
+
+
 
 function App() {
+  const [todos, setTodos] = useState([]);
+
+  const [input, setInput] = useState("");
+
+  useEffect(()=> {
+
+  }, []);
+
+  const addTodo = (event) => {
+    event.preventDefault();
+    setTodos([...todos, input]);
+    setInput("");
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <form>
+      <h1>Make Your TODO</h1>
+      <FormControl>
+        <InputLabel>Write a Todo</InputLabel>
+        <Input value={input} onChange={(event) => setInput(event.target.value)} />
+       
+      </FormControl>
+      <Button
+        disabled={!input}
+        type="submit"
+        onClick={addTodo}
+        variant="contained"
+        color="primary"
+      >
+        Add Todo
+      </Button>
+      </form>
+
+      {todos.map(todo => (
+        <Todo text ={todo}/>
+        // <li>{todo}</li>
+      ))}
     </div>
   );
 }
